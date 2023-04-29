@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
+import PhotoCard from "./PhotoCard";
 
 function Gallery({ items = [] }) {
-  console.log(items);
   return (
-    <div className="grid grid-cols-5">
+    <div className="grid md:grid-cols-4 sm:grid-cols-3">
       {items.map((item) => (
-        <div key={item.image} className=" m-2 h-56 ">
-          <img src={item.image} alt="Product image" className="h-full" />
+        <div key={item.image}>
+          <PhotoCard item={item} />
         </div>
       ))}
     </div>

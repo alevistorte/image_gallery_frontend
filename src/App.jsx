@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   return (
-    <div className="">
+    <div className="relative">
       <Outlet />
     </div>
   );
