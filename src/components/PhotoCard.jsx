@@ -1,19 +1,45 @@
-import {
-  ChangeCircle,
-  Delete,
-  Favorite,
-  ZoomOutMap,
-} from "@mui/icons-material";
+import { Edit, Delete, Favorite, ZoomOutMap } from "@mui/icons-material";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import Preview from "./Preview";
+import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductToCollection } from "../actions/collectionActions";
 
 function PhotoCard({ item = {} }) {
   const [showOptions, setShowOptions] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
+
+  const { collections } = useSelector((s) => s.collections);
+  const [collectionsName, setCollectionsName] = useState({});
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let cNames = {};
+    collections.forEach(({ name }) => {
+      return (cNames[name] = name);
+    });
+    setCollectionsName(cNames);
+  }, []);
+
+  const handleFavorite = async () => {
+    const { value: collection } = await Swal.fire({
+      input: "select",
+      inputOptions: collectionsName,
+      inputPlaceholder: "Select the collection",
+      confirmButtonText: "Add",
+      cancelButtonText: "Cancel",
+      cancelButtonColor: "#333f",
+      showCancelButton: true,
+    });
+
+    if (collection) {
+      dispatch(addProductToCollection(collection, item.url));
+    }
+  };
 
   return (
     <div
@@ -43,14 +69,19 @@ function PhotoCard({ item = {} }) {
               </button>
             </div>
             <div className="flex-none">
-              <button className="hover:text-red-600">
+              <button
+                className={`hover:text-red-400 ${
+                  item.is_favorite && "text-red-600"
+                }`}
+                onClick={handleFavorite}
+              >
                 <Favorite />
               </button>
               <button
                 className="hover:text-blue-500"
                 onClick={() => setShowPreview(true)}
               >
-                <ChangeCircle />
+                <Edit />
               </button>
               <button className="hover:scale-110">
                 <Delete />

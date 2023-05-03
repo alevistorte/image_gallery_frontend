@@ -45,3 +45,22 @@ export const getImagesFromCGT = async (data = "") => {
 
   return await fetch(url, options);
 };
+
+export const addNewProduct = async (collection, productUrl) => {
+  const url = ACTIONS_URL + "saveItem/";
+  const data = {
+    collection,
+    url: productUrl,
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data,
+    }),
+  };
+  return await fetch(url, options);
+};
