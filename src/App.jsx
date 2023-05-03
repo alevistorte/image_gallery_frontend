@@ -8,7 +8,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(collections);
     dispatch(setCollections(collections));
   }, []);
 

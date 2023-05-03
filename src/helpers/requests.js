@@ -27,3 +27,21 @@ export const getNewImages = (productUrl) => {
 
   return fetch(url, options);
 };
+
+export const getImagesFromCGT = async (data = "") => {
+  const url = ACTIONS_URL + `search/`;
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: {
+        prompt: data,
+      },
+    }),
+  };
+
+  return await fetch(url, options);
+};
